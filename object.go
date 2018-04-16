@@ -280,29 +280,45 @@ type MultiUploadOptions struct {
 	PartSize int
 }
 
-// MultiUpload 为高级upload接口，分块上传
+// MultiUpload 为高级upload接口，并发分块上传
 //
 // 需要指定分块大小 partSize >= 1 ,单位为MB
 // 同时请确认分块数量不超过10000
 //
+
 func (s *ObjectService) MultiUpload(ctx context.Context, name string, r io.Reader, opt *MultiUploadOptions) (*CompleteMultipartUploadResult, *Response, error) {
 	
 	optini := opt.OptIni
 	res, _, err := s.InitiateMultipartUpload(ctx, name, optini)
 	if err != nil{panic(err)}
 	uploadID := res.UploadID
-	bufSize := opt.PartSize * 8 * 1024 *1024
+	bufSize := opt.PartSize *  1024 *1024
     buffer := make([]byte,bufSize)  
 	optcom := &CompleteMultipartUploadOptions{}
+	
+	PartUpload := func(ch chan *Response, ctx context.Context, name string, uploadId string, partNumber int, data io.Reader, opt *ObjectUploadPartOptions) {
+		resp, err := s.UploadPart(context.Background(), name, uploadId, partNumber, data, nil)
+		if err != nil {  
+			panic(err)
+		} 
+		ch <- resp
+	}
+	chs := make([]chan *Response, 10000)
+	PartNumber := 0 
     for i := 1 ;true; i++ { 
         bytesread,err := r.Read(buffer)  
         if err != nil {  
             if err != io.EOF {  
                 panic(err)
-            }  
+			} 
+			PartNumber = i
             break  
 		}  
-		resp, _ := s.UploadPart(context.Background(), name, uploadID, i, strings.NewReader(string(buffer[:bytesread])), nil)
+		chs[i] = make(chan *Response)
+		go PartUpload(chs[i], context.Background(), name, uploadID, i, strings.NewReader(string(buffer[:bytesread])), nil)
+	}
+	for  i := 1; i < PartNumber; i++ { 
+		resp := <-chs[i]
 		etag := resp.Header.Get("Etag")
 		optcom.Parts = append(optcom.Parts, Object{
 			PartNumber: i, ETag: etag},
