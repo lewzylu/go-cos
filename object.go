@@ -292,8 +292,8 @@ func (s *ObjectService) MultiUpload(ctx context.Context, name string, r io.Reade
 	res, _, err := s.InitiateMultipartUpload(ctx, name, optini)
 	if err != nil{panic(err)}
 	uploadID := res.UploadID
-  bufSize := opt.PartSize *  1024 *1024
-  buffer := make([]byte,bufSize)  
+ 	bufSize := opt.PartSize *  1024 *1024
+ 	buffer := make([]byte,bufSize)  
 	optcom := &CompleteMultipartUploadOptions{}
 	
 	PartUpload := func(ch chan *Response, ctx context.Context, name string, uploadId string, partNumber int, data io.Reader, opt *ObjectUploadPartOptions) {
