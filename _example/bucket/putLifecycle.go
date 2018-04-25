@@ -33,7 +33,7 @@ func main() {
 		Rules: []cos.BucketLifecycleRule{
 			{
 				ID:     "1234",
-				Prefix: "test",
+				Filter: &BucketLifecycleFilter{Prefix: "test"},
 				Status: "Enabled",
 				Transition: &cos.BucketLifecycleTransition{
 					Days:         10,
@@ -42,7 +42,7 @@ func main() {
 			},
 			{
 				ID:     "123422",
-				Prefix: "gg",
+				Filter: &BucketLifecycleFilter{Prefix: "gg"},
 				Status: "Disabled",
 				Expiration: &cos.BucketLifecycleExpiration{
 					Days: 10,

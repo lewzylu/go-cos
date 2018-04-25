@@ -22,7 +22,9 @@ func TestBucketService_GetLifecycle(t *testing.T) {
 		fmt.Fprint(w, `<LifecycleConfiguration>
 	<Rule>
 		<ID>1234</ID>
-		<Prefix>test</Prefix>
+		<Filter>
+			<Prefix>test</Prefix>
+		</Filter>
 		<Status>Enabled</Status>
 		<Transition>
 			<Days>10</Days>
@@ -31,7 +33,9 @@ func TestBucketService_GetLifecycle(t *testing.T) {
 	</Rule>
 	<Rule>
 		<ID>123422</ID>
-		<Prefix>gg</Prefix>
+		<Filter>
+			<Prefix>gg</Prefix>
+		</Filter>
 		<Status>Disabled</Status>
 		<Expiration>
 			<Days>10</Days>
@@ -50,13 +54,13 @@ func TestBucketService_GetLifecycle(t *testing.T) {
 		Rules: []BucketLifecycleRule{
 			{
 				ID:         "1234",
-				Prefix:     "test",
+				Filter:     &BucketLifecycleFilter{Prefix: "test"},
 				Status:     "Enabled",
 				Transition: &BucketLifecycleTransition{Days: 10, StorageClass: "Standard"},
 			},
 			{
 				ID:         "123422",
-				Prefix:     "gg",
+				Filter:     &BucketLifecycleFilter{Prefix: "gg"},
 				Status:     "Disabled",
 				Expiration: &BucketLifecycleExpiration{Days: 10},
 			},
@@ -76,13 +80,13 @@ func TestBucketService_PutLifecycle(t *testing.T) {
 		Rules: []BucketLifecycleRule{
 			{
 				ID:         "1234",
-				Prefix:     "test",
+				Filter:     &BucketLifecycleFilter{Prefix: "test"},
 				Status:     "Enabled",
 				Transition: &BucketLifecycleTransition{Days: 10, StorageClass: "Standard"},
 			},
 			{
 				ID:         "123422",
-				Prefix:     "gg",
+				Filter:     &BucketLifecycleFilter{Prefix: "gg"},
 				Status:     "Disabled",
 				Expiration: &BucketLifecycleExpiration{Days: 10},
 			},

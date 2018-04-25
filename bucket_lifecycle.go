@@ -5,6 +5,10 @@ import (
 	"encoding/xml"
 	"net/http"
 )
+// BucketLifecycleFilter ...
+type BucketLifecycleFilter struct {
+	Prefix       string `xml:"Prefix,omitempty"`
+}
 
 // BucketLifecycleExpiration ...
 type BucketLifecycleExpiration struct {
@@ -27,8 +31,8 @@ type BucketLifecycleAbortIncompleteMultipartUpload struct {
 // BucketLifecycleRule ...
 type BucketLifecycleRule struct {
 	ID                             string `xml:"ID,omitempty"`
-	Prefix                         string
 	Status                         string
+	Filter                         *BucketLifecycleFilter                     	  `xml:"Filter,omitempty"`
 	Transition                     *BucketLifecycleTransition                     `xml:"Transition,omitempty"`
 	Expiration                     *BucketLifecycleExpiration                     `xml:"Expiration,omitempty"`
 	AbortIncompleteMultipartUpload *BucketLifecycleAbortIncompleteMultipartUpload `xml:"AbortIncompleteMultipartUpload,omitempty"`
