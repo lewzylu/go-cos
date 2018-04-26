@@ -24,12 +24,12 @@ func TestServiceService_Get(t *testing.T) {
 		<Bucket>
 			<Name>huadong-1253846586</Name>
 			<Location>ap-shanghai</Location>
-			<CreateDate>2017-06-16T13:08:28Z</CreateDate>
+			<CreationDate>2017-06-16T13:08:28Z</CreationDate>
 		</Bucket>
 		<Bucket>
 			<Name>huanan-1253846586</Name>
 			<Location>ap-guangzhou</Location>
-			<CreateDate>2017-06-10T09:00:07Z</CreateDate>
+			<CreationDate>2017-06-10T09:00:07Z</CreationDate>
 		</Bucket>
 	</Buckets>
 </ListAllMyBucketsResult>`)
@@ -50,12 +50,12 @@ func TestServiceService_Get(t *testing.T) {
 			{
 				Name:       "huadong-1253846586",
 				Region:     "ap-shanghai",
-				CreateDate: "2017-06-16T13:08:28Z",
+				CreationDate: "2017-06-16T13:08:28Z",
 			},
 			{
 				Name:       "huanan-1253846586",
 				Region:     "ap-guangzhou",
-				CreateDate: "2017-06-10T09:00:07Z",
+				CreationDate: "2017-06-10T09:00:07Z",
 			},
 		},
 	}

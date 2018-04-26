@@ -102,5 +102,5 @@ func (s *BucketService) Head(ctx context.Context) (*Response, error) {
 type Bucket struct {
 	Name       string
 	Region     string `xml:"Location,omitempty"`
-	CreateDate string `xml:",omitempty"`
+	CreationDate string `xml:",omitempty"`
 }
