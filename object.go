@@ -126,7 +126,7 @@ func (s *ObjectService) Copy(ctx context.Context, name, sourceURL string, opt *O
 	if opt.ObjectCopyHeaderOptions == nil {
 		opt.ObjectCopyHeaderOptions = new(ObjectCopyHeaderOptions)
 	}
-	opt.XCosCopySource = sourceURL
+	opt.XCosCopySource = encodeURIComponent(sourceURL)
 
 	sendOpt := sendOptions{
 		baseURL:   s.client.BaseURL.BucketURL,
