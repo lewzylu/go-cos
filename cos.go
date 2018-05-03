@@ -16,7 +16,7 @@ import (
 	"strconv"
 
 	"github.com/google/go-querystring/query"
-	"github.com/mozillazg/go-httpheader"
+	"github.com/lewzylu/go-httpheader"
 )
 
 const (

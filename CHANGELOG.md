@@ -5,7 +5,7 @@
 ### 新增
 
 * 支持新增的 Put Object Copy API
-* 新增 `github.com/mozillazg/go-cos/debug`，目前只包含 `DebugRequestTransport`
+* 新增 `github.com/lewzylu/go-cos/debug`，目前只包含 `DebugRequestTransport`
 
 
 ## [0.6.0] (2017-07-09)
@@ -63,9 +63,9 @@
 * 完成大部分 Bucket API(还剩一个 Put Bucket Lifecycle)
 
 
-[0.7.0]: https://github.com/mozillazg/go-cos/compare/v0.6.0...v0.7.0
-[0.6.0]: https://github.com/mozillazg/go-cos/compare/v0.5.0...v0.6.0
-[0.5.0]: https://github.com/mozillazg/go-cos/compare/v0.4.0...v0.5.0
-[0.4.0]: https://github.com/mozillazg/go-cos/compare/v0.3.0...v0.4.0
-[0.3.0]: https://github.com/mozillazg/go-cos/compare/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/mozillazg/go-cos/compare/v0.1.0...v0.2.0
+[0.7.0]: https://github.com/lewzylu/go-cos/compare/v0.6.0...v0.7.0
+[0.6.0]: https://github.com/lewzylu/go-cos/compare/v0.5.0...v0.6.0
+[0.5.0]: https://github.com/lewzylu/go-cos/compare/v0.4.0...v0.5.0
+[0.4.0]: https://github.com/lewzylu/go-cos/compare/v0.3.0...v0.4.0
+[0.3.0]: https://github.com/lewzylu/go-cos/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/lewzylu/go-cos/compare/v0.1.0...v0.2.0

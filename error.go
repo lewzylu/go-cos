@@ -16,15 +16,23 @@ type ErrorResponse struct {
 	Code      string
 	Message   string
 	Resource  string
-	RequestID string `xml:"RequestId"`
+	RequestID string `header:"x-cos-request-id,omitempty" url:"-" xml:"-"`
 	TraceID   string `xml:"TraceId,omitempty"`
 }
 
 // Error ...
 func (r *ErrorResponse) Error() string {
+	RequestID := r.RequestID
+	if (RequestID == "") {
+		RequestID = r.Response.Header["X-Cos-Request-Id"][0]
+	}
+	TraceID := r.TraceID
+	if (TraceID == "") {
+		TraceID = r.Response.Header["X-Cos-Trace-Id"][0]
+	}
 	return fmt.Sprintf("%v %v: %d %v(Message: %v, RequestId: %v, TraceId: %v)",
 		r.Response.Request.Method, r.Response.Request.URL,
-		r.Response.StatusCode, r.Code, r.Message, r.RequestID, r.TraceID)
+		r.Response.StatusCode, r.Code, r.Message, RequestID, TraceID)
 }
 
 // 检查 response 是否是出错时的返回的 response

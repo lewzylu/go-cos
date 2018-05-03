@@ -8,8 +8,8 @@ import (
 	"net/http"
 
 	"fmt"
-	"github.com/mozillazg/go-cos"
-	"github.com/mozillazg/go-cos/debug"
+	"github.com/lewzylu/go-cos"
+	"github.com/lewzylu/go-cos/debug"
 )
 
 func main() {

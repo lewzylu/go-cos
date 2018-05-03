@@ -87,7 +87,9 @@ func newAuthorization(secretID, secretKey string, req *http.Request, authTime *A
 	keyTime := authTime.keyString()
 	signKey := calSignKey(secretKey, keyTime)
 
-	formatHeaders, signedHeaderList := genFormatHeaders(req.Header)
+	formatHeaders := *new(string)
+	signedHeaderList := *new([]string)
+	formatHeaders, signedHeaderList = genFormatHeaders(req.Header)
 	formatParameters, signedParameterList := genFormatParameters(req.URL.Query())
 	formatString := genFormatString(req.Method, *req.URL, formatParameters, formatHeaders)
 
