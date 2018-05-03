@@ -10,8 +10,8 @@ import (
 
 	"net/http"
 
-	"github.com/mozillazg/go-cos"
-	"github.com/mozillazg/go-cos/debug"
+	"github.com/lewzylu/go-cos"
+	"github.com/lewzylu/go-cos/debug"
 )
 
 func initUpload(c *cos.Client, name string) *cos.InitiateMultipartUploadResult {
