@@ -169,6 +169,10 @@ func (s *ObjectService) Head(ctx context.Context, name string, opt *ObjectHeadOp
 		optHeader: opt,
 	}
 	resp, err := s.client.send(ctx, &sendOpt)
+	if resp.Header["X-Cos-Object-Type"][0] == "appendable" {
+		resp.Header.Add("x-cos-next-append-position",resp.Header["Content-Length"][0])
+	}
+
 	return resp, err
 }
 
@@ -212,6 +216,9 @@ func (s *ObjectService) Options(ctx context.Context, name string, opt *ObjectOpt
 // https://www.qcloud.com/document/product/436/7741
 func (s *ObjectService) Append(ctx context.Context, name string, position int, r io.Reader, opt *ObjectPutOptions) (*Response, error) {
 	u := fmt.Sprintf("/%s?append&position=%d", encodeURIComponent(name), position)
+	if position != 0{
+		opt = nil
+	}
 	sendOpt := sendOptions{
 		baseURL:   s.client.BaseURL.BucketURL,
 		uri:       u,
