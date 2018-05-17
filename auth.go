@@ -103,10 +103,13 @@ func newAuthorization(secretID, secretKey string, req *http.Request, authTime *A
 }
 
 // AddAuthorizationHeader 给 req 增加签名信息
-func AddAuthorizationHeader(secretID, secretKey string, req *http.Request, authTime *AuthTime) {
+func AddAuthorizationHeader(secretID, secretKey string, sessionToken string, req *http.Request, authTime *AuthTime) {
 	auth := newAuthorization(secretID, secretKey, req,
 		authTime,
 	)
+	if len(sessionToken) > 0 {
+		req.Header.Set("x-cos-security-token", sessionToken)
+	}
 	req.Header.Set("Authorization", auth)
 }
 
@@ -213,6 +216,7 @@ func isSignHeader(key string) bool {
 type AuthorizationTransport struct {
 	SecretID  string
 	SecretKey string
+	SessionToken string
 	// 签名多久过期
 	Expire time.Duration
 
@@ -228,7 +232,7 @@ func (t *AuthorizationTransport) RoundTrip(req *http.Request) (*http.Response, e
 
 	// 增加 Authorization header
 	authTime := NewAuthTime(t.Expire)
-	AddAuthorizationHeader(t.SecretID, t.SecretKey, req, authTime)
+	AddAuthorizationHeader(t.SecretID, t.SecretKey, t.SessionToken, req, authTime)
 
 	resp, err := t.transport().RoundTrip(req)
 	return resp, err
