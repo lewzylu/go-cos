@@ -7,8 +7,8 @@ import (
 	"strings"
 	"net/http"
 	"encoding/json"
-	"github.com/alantong/go-cos"
-	"github.com/alantong/go-cos/debug"
+ 	"github.com/lewzylu/go-cos"
+        "github.com/lewzylu/go-cos/debug"
 	"github.com/QcloudApi/qcloud_sign_golang"
 
 )
@@ -26,8 +26,8 @@ type Response struct{
 }
 func main() {
         // 替换实际的 SecretId 和 SecretKey
-        secretId := "AKIDrbAYjEBqqdEconpFi8NPFsOjrnX4LYUE"
-        secretKey := "gCYjhT4ThiXAbp4aw65sTs56vY2Kcooc"
+        secretId := ""
+        secretKey := ""
     
         // 配置
         config := map[string]interface{} {"secretId" : secretId, "secretKey" : secretKey, "debug" : false}
