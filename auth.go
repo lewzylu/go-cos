@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"sort"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -214,13 +215,30 @@ func isSignHeader(key string) bool {
 
 // AuthorizationTransport 给请求增加 Authorization header
 type AuthorizationTransport struct {
-	SecretID  string
-	SecretKey string
+	SecretID     string
+	SecretKey    string
 	SessionToken string
+	rwLocker     sync.RWMutex
 	// 签名多久过期
 	Expire time.Duration
 
 	Transport http.RoundTripper
+}
+
+// SetCredential update the SecretID(ak), SercretKey(sk), sessiontoken
+func (t *AuthorizationTransport) SetCredential(ak, sk, token string) {
+	t.rwLocker.Lock()
+	defer t.rwLocker.Unlock()
+	t.SecretID = ak
+	t.SecretKey = sk
+	t.SessionToken = token
+}
+
+// GetCredential get the ak, sk, token
+func (t *AuthorizationTransport) GetCredential() (string, string, string) {
+	t.rwLocker.RLock()
+	defer t.rwLocker.RUnlock()
+	return t.SecretID, t.SecretKey, t.SessionToken
 }
 
 // RoundTrip implements the RoundTripper interface.
@@ -230,9 +248,10 @@ func (t *AuthorizationTransport) RoundTrip(req *http.Request) (*http.Response, e
 		t.Expire = defaultAuthExpire
 	}
 
+	ak, sk, token := t.GetCredential()
 	// 增加 Authorization header
 	authTime := NewAuthTime(t.Expire)
-	AddAuthorizationHeader(t.SecretID, t.SecretKey, t.SessionToken, req, authTime)
+	AddAuthorizationHeader(ak, sk, token, req, authTime)
 
 	resp, err := t.transport().RoundTrip(req)
 	return resp, err
